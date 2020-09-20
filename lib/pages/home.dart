@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshgrownweb/pages/editproduct.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,8 +9,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text('hola'),
-    );
+    return EditProducts();
   }
 }
