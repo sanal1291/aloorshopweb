@@ -12,6 +12,8 @@ class AddProductService {
   final items = FirebaseFirestore.instance.collection("items");
   final categories = FirebaseFirestore.instance.collection("Categories");
   final storage = FirebaseStorage.instance;
+  final independentItems =
+      FirebaseFirestore.instance.collection("independentItems");
 
   // add the product details to firestore and image to firestorage
 
@@ -36,12 +38,30 @@ class AddProductService {
           await _storage.put(fileImage.data, metaData).future;
       var imageUri = await uploadTaskSnapshot.ref.getDownloadURL();
       String url = imageUri.toString();
+      for (Map e in varieties) {
+        DocumentReference docRef = independentItems.doc();
+        docRef.set({
+          'rank': rank,
+          'name': displayNames['en'],
+          'displayName': displayNames,
+          'imageUrl': url,
+          'category': categories,
+          'quality': e['quality'],
+          'unitMeasured': e['unit'],
+          'price': e['price'],
+          'tikcQuantity': e['tickQuantity'],
+          'inStock': e['inStock'],
+        });
+        print(docRef.id);
+        e['itemId'] = docRef.id;
+      }
       return await items.doc().set({
+        'rank': rank,
         'name': displayNames['en'],
         'displayName': displayNames,
         'imageUrl': url,
         'category': categories,
-        'varities': varieties,
+        'quality': varieties,
         'searchArray': searchArray,
       });
     } catch (e) {

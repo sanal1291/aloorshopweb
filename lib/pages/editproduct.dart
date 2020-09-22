@@ -1,6 +1,5 @@
 import 'dart:io';
 
-
 import 'package:freshgrownweb/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:freshgrownweb/models/category.dart';
@@ -54,7 +53,7 @@ class _EditProductsState extends State<EditProducts> {
                   child: Center(child: Text("name"))),
               Container(
                   decoration: BoxDecoration(border: Border.all()),
-                  width: 250,
+                  width: 150,
                   child: Center(child: Text("picture"))),
               Expanded(
                   child: Container(
@@ -180,8 +179,8 @@ class _ItemRowState extends State<ItemRow> {
                   )),
               Container(
                 decoration: BoxDecoration(border: Border.all()),
-                width: 250,
-                height: 150,
+                width: 150,
+                height: 100,
                 child: Column(
                   children: [
                     IconButton(
@@ -198,7 +197,7 @@ class _ItemRowState extends State<ItemRow> {
                     ),
                     _imageWidget != null
                         ? SizedBox(
-                            height: 100,
+                            height: 60,
                             child: Container(
                               child: _imageWidget,
                             ))
@@ -273,16 +272,6 @@ class _ItemRowState extends State<ItemRow> {
                       onPressed: () async {
                         if (_formKeyProduct.currentState.validate() &
                             _formKeyVariety.currentState.validate()) {
-                          // for (Map map in EditProductClass.data) {
-                          //   print(map);
-                          // }
-                          // print(_englishName);
-                          // print(_malayalamName);
-                          // print(_imageFile);
-                          // print(_rank);
-                          // print(categories);
-                          // print("success");
-
                           await newProductService.updateProductData(
                               varieties: EditProductClass.data,
                               displayNames: {
@@ -334,7 +323,7 @@ class _VarietyWidgetState extends State<VarietyWidget> {
           Expanded(
             child: TextFormField(
               onChanged: (value) {
-                _temp[_index]['quality'] = value;
+                _temp[_index]['Variety'] = value;
               },
               validator: (value) => value.isEmpty ? "!" : null,
               decoration: textInputDecoration.copyWith(hintText: "Quality"),
@@ -352,9 +341,55 @@ class _VarietyWidgetState extends State<VarietyWidget> {
           Expanded(
             child: TextFormField(
               onChanged: (value) {
-                _temp[_index]['price'] = value;
+                try {
+                  _temp[_index]['tickQuantity'] = int.parse(value);
+                } catch (e) {
+                  print(e.toString());
+                  myToast("Please enter a number");
+                }
               },
-              validator: (value) => value.isEmpty ? "!" : null,
+              validator: (value) {
+                try {
+                  if (value.isEmpty) {
+                    return 'Enter a Category priority';
+                  } else if (!(_temp[_index]['tickQuantity'] is int)) {
+                    return 'Please enter a number';
+                  } else {
+                    return null;
+                  }
+                } catch (e) {
+                  print(e.toString());
+                  return 'Something went wrong';
+                }
+              },
+              decoration:
+                  textInputDecoration.copyWith(hintText: "Min quantity"),
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+              onChanged: (value) {
+                try {
+                  _temp[_index]['price'] = double.parse(value);
+                } catch (e) {
+                  print(e.toString());
+                  myToast("Please enter a number");
+                }
+              },
+              validator: (value) {
+                try {
+                  if (value.isEmpty) {
+                    return 'Enter a Category priority';
+                  } else if (!(_temp[_index]['tickQuantity'] is double)) {
+                    return 'Please enter a number';
+                  } else {
+                    return null;
+                  }
+                } catch (e) {
+                  print(e.toString());
+                  return 'Something went wrong';
+                }
+              },
               decoration: textInputDecoration.copyWith(hintText: "price"),
             ),
           ),
