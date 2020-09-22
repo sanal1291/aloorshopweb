@@ -5,7 +5,6 @@ import 'package:freshgrownweb/pages/home.dart';
 import 'package:freshgrownweb/services/authservive.dart';
 import 'package:freshgrownweb/services/database.dart';
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 
 class ProviderWidget extends StatelessWidget {
@@ -17,7 +16,6 @@ class ProviderWidget extends StatelessWidget {
       child: MultiProvider(
         providers: [
           StreamProvider<List<Item>>.value(value: databaseService.getItems),
-          StreamProvider<User>.value(value: authService.user),
           StreamProvider<List<Category>>.value(
               value: databaseService.getCategories)
         ],

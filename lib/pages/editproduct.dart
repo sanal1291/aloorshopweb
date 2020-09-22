@@ -1,6 +1,6 @@
 import 'dart:io';
 
-
+import 'package:freshgrownweb/services/authservive.dart';
 import 'package:freshgrownweb/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:freshgrownweb/models/category.dart';
@@ -34,7 +34,17 @@ class _EditProductsState extends State<EditProducts> {
           child: Icon(Icons.add),
         ),
         appBar: AppBar(
-          title: Text("Edit page"),
+          title: Row(
+            children: [
+              Text("Edit page"),
+              RaisedButton(
+                onPressed: () {
+                  AuthService().signOut();
+                },
+                child: Text('SignOUT'),
+              )
+            ],
+          ),
         ),
         backgroundColor: Colors.green.shade100,
         body: ListView(

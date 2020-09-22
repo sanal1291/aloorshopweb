@@ -13,6 +13,7 @@ class AuthService {
     if (admins.exists) {
       return user;
     } else {
+      _auth.signOut();
       return null;
     }
   }
@@ -20,12 +21,13 @@ class AuthService {
   Future signInAdmin(String email, String password) async {
     UserCredential result;
     User user;
-    try{
-       result = await _auth.signInWithEmailAndPassword(
-        email: email, password: password);
+    try {
+      result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       user = result.user;
-    }catch(e){
+    } catch (e) {
       print(e);
+      _auth.signOut();
       return null;
     }
 
@@ -39,5 +41,8 @@ class AuthService {
 
   Stream<User> get user {
     return _auth.authStateChanges();
+  }
+  void signOut(){
+    _auth.signOut();
   }
 }
