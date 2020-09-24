@@ -4,21 +4,21 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<User> getAdminStats(User user) async {
+  Future<dynamic> getAdminStats(User user) async {
     if (user != null) {
       final admins = await FirebaseFirestore.instance
           .collection("admin")
           .doc(user.uid)
           .get();
-      print(admins);
       if (admins.exists) {
-        return user;
+        return true;
       } else {
         _auth.signOut();
-        return null;
+        return false;
       }
+    } else {
+      return 'nouser';
     }
-  else return null;
   }
 
   Future signInAdmin(String email, String password) async {
@@ -41,8 +41,17 @@ class AuthService {
       return null;
   }
 
-  Stream<Future<User>> get user {
-    return _auth.authStateChanges().map((event) => getAdminStats(event));
+  User getCurrentUser(){
+   return  _auth.currentUser;
+  }
+
+  // Stream<Future<dynamic>> get user {
+    Stream<User> get user {
+      return _auth.authStateChanges();
+    // return _auth.authStateChanges().map((user) {
+      // print("stream returned  :$user");
+      // return getAdminStats(user);
+    // });
   }
 
   void signOut() {

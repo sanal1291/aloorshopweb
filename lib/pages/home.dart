@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:freshgrownweb/pages/editproduct.dart';
 import 'package:freshgrownweb/shared/constants.dart';
+
 
 class Home extends StatefulWidget {
   @override
@@ -20,12 +20,12 @@ class _HomeState extends State<Home> {
           children: [
             FlatButton(
                 onPressed: () {
-                  // Navigator.of(context).pushNamed('/add product');
+                  Navigator.of(context).pushNamed('/add product');
                 },
                 child: Text('Add Product')),
             FlatButton(
                 onPressed: () {
-                  // Navigator.of(context).pushNamed('/add product');
+                  Navigator.of(context).pushNamed('/add product');
                 },
                 child: Text('Miscellaneous')),
           ],
@@ -33,6 +33,6 @@ class _HomeState extends State<Home> {
       ),
     );
 
-    // EditProducts();
+    // return EditProducts();
   }
 }
