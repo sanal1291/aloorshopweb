@@ -95,11 +95,11 @@ class _SignInState extends State<SignIn> {
                                   error = 'Login failed';
                                 });
                               } else {
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (BuildContext context) =>
-                                            ProviderWidget()));
+                                // Navigator.pushReplacement(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //         builder: (BuildContext context) =>
+                                //             ProviderWidget()));
                               }
                             }
                           },

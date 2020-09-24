@@ -6,24 +6,27 @@ import 'package:freshgrownweb/pages/providers.dart';
 import 'package:freshgrownweb/services/authservive.dart';
 import 'package:provider/provider.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User>.value(
+    return StreamProvider<Future<User>>.value(
       value: AuthService().user,
-          child: MaterialApp(
-            home: Scaffold(
-              body: Wrapper(),
-              backgroundColor: Colors.white,
-        ),
-      ),
+      builder: (BuildContext context, Widget widget) {
+        print('stream rebuild');
+        print(Provider.of<Future<User>>(context));
+        return MaterialApp(
+          home: Scaffold(
+            body: Wrapper(),
+            backgroundColor: Colors.white,
+          ),
+        );
+      },
     );
   }
 }
@@ -31,7 +34,17 @@ class MyApp extends StatelessWidget {
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
-    return user!=null?ProviderWidget():SignIn();
+    return FutureBuilder(
+        future: Provider.of<Future<User>>(context),
+        builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+          // print(snapshot.data);
+          if (snapshot.data != null) {
+            return ProviderWidget();
+          } else {
+            return SignIn();
+          }
+        }
+        // user!=null?ProviderWidget():SignIn();
+        );
   }
 }
