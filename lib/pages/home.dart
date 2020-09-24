@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freshgrownweb/pages/editproduct.dart';
+import 'package:freshgrownweb/shared/constants.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -9,6 +10,29 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return EditProducts();
+    return Scaffold(
+      backgroundColor: appBgColor,
+      appBar: AppBar(
+        backgroundColor: appBarColor,
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            FlatButton(
+                onPressed: () {
+                  // Navigator.of(context).pushNamed('/add product');
+                },
+                child: Text('Add Product')),
+            FlatButton(
+                onPressed: () {
+                  // Navigator.of(context).pushNamed('/add product');
+                },
+                child: Text('Miscellaneous')),
+          ],
+        ),
+      ),
+    );
+
+    // EditProducts();
   }
 }
