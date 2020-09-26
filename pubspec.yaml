@@ -38,6 +38,7 @@ dependencies:
   path: ^1.7.0
   image_picker_for_web: ^0.1.0
   mime_type: ^0.3.2
+  flutter_focus_watcher: ^0.0.1
   flutter_localizations:
     sdk: flutter
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:freshgrownweb/shared/constants.dart';
 
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -25,7 +24,7 @@ class _HomeState extends State<Home> {
                 child: Text('Add Product')),
             FlatButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/add product');
+                  Navigator.of(context).pushNamed('/admin details');
                 },
                 child: Text('Miscellaneous')),
           ],

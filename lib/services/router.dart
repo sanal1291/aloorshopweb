@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshgrownweb/pages/admin_details.dart';
 import 'package:freshgrownweb/pages/editproduct.dart';
 import 'package:freshgrownweb/pages/home.dart';
 
@@ -12,7 +13,7 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => EditProducts());
         break;
       case '/admin details':
-        return MaterialPageRoute(builder: (_) => EditProducts());
+        return MaterialPageRoute(builder: (_) => AdminDetailsPage());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
