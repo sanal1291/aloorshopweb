@@ -27,6 +27,11 @@ class _HomeState extends State<Home> {
                   Navigator.of(context).pushNamed('/admin details');
                 },
                 child: Text('Miscellaneous')),
+            FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/add category');
+                },
+                child: Text('Add category')),
           ],
         ),
       ),

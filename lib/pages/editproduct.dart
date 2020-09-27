@@ -283,7 +283,7 @@ class _ItemRowState extends State<ItemRow> {
                       onPressed: () async {
                         if (_formKeyProduct.currentState.validate() &
                             _formKeyVariety.currentState.validate()) {
-                          await newProductService.updateProductData(
+                          await newProductService.addProductData(
                               varieties: EditProductClass.data,
                               displayNames: {
                                 'en': _englishName,
@@ -337,7 +337,7 @@ class _VarietyWidgetState extends State<VarietyWidget> {
                 _temp[_index]['Variety'] = value;
               },
               validator: (value) => value.isEmpty ? "!" : null,
-              decoration: textInputDecoration.copyWith(hintText: "Quality"),
+              decoration: textInputDecoration.copyWith(hintText: "Variety"),
             ),
           ),
           Expanded(
@@ -362,7 +362,7 @@ class _VarietyWidgetState extends State<VarietyWidget> {
               validator: (value) {
                 try {
                   if (value.isEmpty) {
-                    return 'Enter a Category priority';
+                    return '!';
                   } else if (!(_temp[_index]['tickQuantity'] is int)) {
                     return 'Please enter a number';
                   } else {

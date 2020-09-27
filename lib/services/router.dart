@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshgrownweb/pages/addcategorypage.dart';
 import 'package:freshgrownweb/pages/admin_details.dart';
 import 'package:freshgrownweb/pages/editproduct.dart';
 import 'package:freshgrownweb/pages/home.dart';
@@ -14,6 +15,8 @@ class MyRouter {
         break;
       case '/admin details':
         return MaterialPageRoute(builder: (_) => AdminDetailsPage());
+      case '/add category':
+        return MaterialPageRoute(builder: (_) => AddCategoryPage());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

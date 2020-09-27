@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:firebase/firebase.dart' as fb;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,7 +16,7 @@ class AddProductService {
 
   // add the product details to firestore and image to firestorage
 
-  Future updateProductData(
+  Future addProductData(
       {List<Map> varieties,
       MediaInfo fileImage,
       List<String> categories,
@@ -46,7 +45,7 @@ class AddProductService {
           'displayName': displayNames,
           'imageUrl': url,
           'category': categories,
-          'quality': e['quality'],
+          'varieties': e['quality'],
           'unitMeasured': e['unit'],
           'price': e['price'],
           'tikcQuantity': e['tickQuantity'],
@@ -61,7 +60,7 @@ class AddProductService {
         'displayName': displayNames,
         'imageUrl': url,
         'category': categories,
-        'quality': varieties,
+        'varieties': varieties,
         'searchArray': searchArray,
       });
     } catch (e) {
@@ -69,8 +68,8 @@ class AddProductService {
     }
   }
 
-  Future<bool> updateCategory(
-      {Map category, File fileImage, int priority}) async {
+  Future<bool> addCategory(
+      {Map category, MediaInfo fileImage, int priority}) async {
     QuerySnapshot ds =
         await categories.where('name', isEqualTo: category['en']).get();
 
@@ -82,13 +81,14 @@ class AddProductService {
         }
       }
       try {
-        StorageUploadTask task = storage
-            .ref()
-            .child("category_images")
-            .child("${DateTime.now().millisecondsSinceEpoch.toString()}.jpg")
-            .putFile(fileImage);
-        StorageTaskSnapshot snapshot = await task.onComplete;
-        String url = await snapshot.ref.getDownloadURL();
+        String mimeType = mime(basename(fileImage.fileName));
+        var metaData = fb.UploadMetadata(contentType: mimeType);
+        fb.StorageReference _storage =
+            fb.storage().ref('category_images/${fileImage.fileName}');
+        fb.UploadTaskSnapshot uploadTaskSnapshot =
+            await _storage.put(fileImage.data, metaData).future;
+        var imageUri = await uploadTaskSnapshot.ref.getDownloadURL();
+        String url = imageUri.toString();
         await categories.doc().set({
           'displayNames': category,
           'name': category['en'],
@@ -96,6 +96,7 @@ class AddProductService {
           'searchArray': searchArray,
           'priority': priority
         });
+        myToast('Category successfully added');
       } catch (e) {
         print(e.toString());
       }
