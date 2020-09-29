@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:freshgrownweb/pages/addcategorypage.dart';
 import 'package:freshgrownweb/pages/admin_details.dart';
-import 'package:freshgrownweb/pages/editproduct.dart';
+import 'package:freshgrownweb/pages/addproduct.dart';
 import 'package:freshgrownweb/pages/home.dart';
 
 class MyRouter {

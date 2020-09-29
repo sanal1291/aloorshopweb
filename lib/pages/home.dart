@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshgrownweb/services/authservive.dart';
 import 'package:freshgrownweb/shared/constants.dart';
 
 class Home extends StatefulWidget {
@@ -32,6 +33,12 @@ class _HomeState extends State<Home> {
                   Navigator.of(context).pushNamed('/add category');
                 },
                 child: Text('Add category')),
+            RaisedButton(
+              onPressed: () {
+                AuthService().signOut();
+              },
+              child: Text('SignOUT'),
+            )
           ],
         ),
       ),

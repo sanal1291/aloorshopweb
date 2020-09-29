@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:freshgrownweb/services/authservive.dart';
+import 'package:flutter_focus_watcher/flutter_focus_watcher.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:freshgrownweb/shared/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:freshgrownweb/models/category.dart';
@@ -20,10 +21,17 @@ class EditProducts extends StatefulWidget {
 
 class _EditProductsState extends State<EditProducts> {
   bool _isAddProduct = true;
+  bool _isLoading = false;
+
+  void loader(bool temp) {
+    setState(() {
+      _isLoading = temp;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Provider(
-      create: (context) => EditProductClass(),
+    return FocusWatcher(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -34,15 +42,10 @@ class _EditProductsState extends State<EditProducts> {
           child: Icon(Icons.add),
         ),
         appBar: AppBar(
+          backgroundColor: appBarColor,
           title: Row(
             children: [
               Text("Edit page"),
-              RaisedButton(
-                onPressed: () {
-                  AuthService().signOut();
-                },
-                child: Text('SignOUT'),
-              )
             ],
           ),
         ),
@@ -81,7 +84,18 @@ class _EditProductsState extends State<EditProducts> {
                   width: 50,
                   child: Center(child: Text("actions"))),
             ]),
-            _isAddProduct ? ItemRow() : SizedBox(),
+            _isAddProduct ? ItemRow(loader) : SizedBox(),
+            _isLoading
+                ? Container(
+                    color: appBarColor,
+                    child: Center(
+                      child: SpinKitThreeBounce(
+                        color: appBgColor,
+                        size: 50.0,
+                      ),
+                    ),
+                  )
+                : Container(),
           ],
         ),
       ),
@@ -90,6 +104,8 @@ class _EditProductsState extends State<EditProducts> {
 }
 
 class ItemRow extends StatefulWidget {
+  final Function loader;
+  ItemRow(this.loader);
   @override
   _ItemRowState createState() => _ItemRowState();
 }
@@ -281,6 +297,8 @@ class _ItemRowState extends State<ItemRow> {
                         color: Colors.green,
                       ),
                       onPressed: () async {
+                        widget.loader(true);
+                        await Future.delayed(Duration(seconds: 3));
                         if (_formKeyProduct.currentState.validate() &
                             _formKeyVariety.currentState.validate()) {
                           await newProductService.addProductData(
@@ -292,9 +310,14 @@ class _ItemRowState extends State<ItemRow> {
                               fileImage: _imageFile,
                               rank: _rank,
                               categories: categories);
+
                           print('successfully uploaded');
+                          widget.loader(false);
                           myToast("successfully uploaded");
+                          Navigator.pushReplacementNamed(
+                              context, '/add product');
                         } else {
+                          widget.loader(false);
                           myToast("fill all required fields");
                         }
                       })),
@@ -334,7 +357,7 @@ class _VarietyWidgetState extends State<VarietyWidget> {
           Expanded(
             child: TextFormField(
               onChanged: (value) {
-                _temp[_index]['Variety'] = value;
+                _temp[_index]['variety'] = value;
               },
               validator: (value) => value.isEmpty ? "!" : null,
               decoration: textInputDecoration.copyWith(hintText: "Variety"),
