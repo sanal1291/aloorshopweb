@@ -1,12 +1,19 @@
 class Item {
-  String name, picture, category, uid;
-  num price;
-  List<dynamic> searchArray;
+  String name, imageUrl, uid;
+  var categories;
+  List<dynamic> varieties;
+  Map displayNames;
+  int rank;
+  bool inStock;
+  var searchArray;
   Item(
       {this.name,
-      this.picture,
-      this.category,
+      this.displayNames,
+      this.imageUrl,
+      this.rank,
+      this.categories,
       this.searchArray,
       this.uid,
-      this.price});
+      this.varieties,
+      this.inStock});
 }

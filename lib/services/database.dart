@@ -43,48 +43,21 @@ class DatabaseService {
 
 // get item list as stream
   Stream<List<Item>> get getItems {
-    return items.snapshots().map((snapshot) => snapshot.docs
-        .map((doc) => Item(
-            uid: doc.id,
-            name: doc.get('name'),
-            picture: doc.get('image'),
-            category: doc.get('category'),
-            searchArray: doc.get('searchArray'),
-            price: doc.get('price')))
-        .toList());
-  }
-
-// get similar products as category
-  Stream<List<Item>> getSimilarItems(category) {
-    return items
-        .where('category', isEqualTo: category)
-        .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Item(
-                  uid: doc.id,
-                  name: doc.get('name'),
-                  picture: doc.get('image'),
-                  price: doc.get('price'),
-                  category: doc.get('category'),
-                ))
-            .toList());
-  }
-
-  // add to cart
-  Future updateCart(
-      {Item item, num quantity, String quality, num total}) async {
-    try {
-      return await users.doc(uid).collection("cart").doc().set({
-        "itemId": item.uid,
-        "name": item.name,
-        "picture": item.picture,
-        "quality": quality,
-        "quantity": quantity,
-        "total": total,
-      });
-    } catch (e) {
-      print(e.toString());
-    }
+    return items.snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) => Item(
+                uid: doc.id,
+                rank: doc.data()['rank'],
+                name: doc.data()['name'],
+                displayNames: doc.data()['displayName'],
+                imageUrl: doc.data()['imageUrl'],
+                categories: doc.data()['category'],
+                searchArray: doc.data()['searchArray'],
+                varieties: doc.data()['varieties'],
+                inStock: doc.data()['inStock'],
+              ))
+          .toList();
+    });
   }
 
   // get cart list as stream
