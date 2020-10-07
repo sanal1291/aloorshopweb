@@ -62,6 +62,7 @@ class AddProductService {
         'category': categories,
         'varieties': varieties,
         'searchArray': searchArray,
+        'inStock': true,
       });
     } catch (e) {
       print(e.toString());
