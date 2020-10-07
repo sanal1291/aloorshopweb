@@ -413,8 +413,8 @@ class _VarietyWidgetState extends State<VarietyWidget> {
               validator: (value) {
                 try {
                   if (value.isEmpty) {
-                    return 'Enter a Category priority';
-                  } else if (!(_temp[_index]['tickQuantity'] is double)) {
+                    return '!';
+                  } else if (!(_temp[_index]['price'] is double)) {
                     return 'Please enter a number';
                   } else {
                     return null;
@@ -425,6 +425,33 @@ class _VarietyWidgetState extends State<VarietyWidget> {
                 }
               },
               decoration: textInputDecoration.copyWith(hintText: "price"),
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+              onChanged: (value) {
+                try {
+                  _temp[_index]['mrp'] = double.parse(value);
+                } catch (e) {
+                  print(e.toString());
+                  myToast("Please enter a number");
+                }
+              },
+              validator: (value) {
+                try {
+                  if (value.isEmpty) {
+                    return '!';
+                  } else if (!(_temp[_index]['mrp'] is double)) {
+                    return 'Please enter a number';
+                  } else {
+                    return null;
+                  }
+                } catch (e) {
+                  print(e.toString());
+                  return 'Something went wrong';
+                }
+              },
+              decoration: textInputDecoration.copyWith(hintText: "mrp"),
             ),
           ),
           Checkbox(
