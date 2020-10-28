@@ -69,6 +69,11 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                     child: ListView(
                       children: [
                         Column(
+                            // children: messages.map((e){
+                            //   return
+                            // }),
+                            ),
+                        Column(
                           children: [
                             Row(
                               children: [
@@ -210,9 +215,12 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                           Expanded(
                                                             child:
                                                                 TextFormField(
-                                                              initialValue:
-                                                                  areaNames[
-                                                                      areaIndex],
+                                                              controller: TextEditingController(
+                                                                  text: areaNames[
+                                                                      areaIndex]),
+                                                              // initialValue:
+                                                              //     areaNames[
+                                                              //         areaIndex],
                                                               decoration: textInputDecoration
                                                                   .copyWith(
                                                                       hintText:
@@ -235,6 +243,36 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                                     : null;
                                                               },
                                                             ),
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                                Icons.remove),
+                                                            onPressed: () {
+                                                              try {
+                                                                if (locationMinAmount
+                                                                    .map((e) => e[
+                                                                        'area'])
+                                                                    .toList()
+                                                                    .contains(
+                                                                        areaNames[
+                                                                            areaIndex])) {
+                                                                  myToast(
+                                                                      'Area is used in localities. Try removing localities first.');
+                                                                } else {
+                                                                  setState(() {
+                                                                    areaNames
+                                                                        .removeAt(
+                                                                            areaIndex);
+                                                                  });
+
+                                                                  print(
+                                                                      areaNames);
+                                                                }
+                                                              } catch (e) {
+                                                                myToast(
+                                                                    'Something went wrong.');
+                                                              }
+                                                            },
                                                           ),
                                                           SizedBox(width: 10.0),
                                                         ],
@@ -371,7 +409,7 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                                 try {
                                                                   if (value
                                                                       .isEmpty) {
-                                                                    return 'Enter a Category priority';
+                                                                    return '!';
                                                                   } else if (!(arrayElement[
                                                                           'minAmount']
                                                                       is int)) {
@@ -392,6 +430,22 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                                       labelText:
                                                                           'Free delivery amount'),
                                                             ),
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                                Icons.remove),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                try {
+                                                                  locationMinAmount
+                                                                      .remove(
+                                                                          arrayElement);
+                                                                } catch (e) {
+                                                                  myToast(
+                                                                      'Area is used in localitites, try removing localitites first');
+                                                                }
+                                                              });
+                                                            },
                                                           ),
                                                         ],
                                                       ),
