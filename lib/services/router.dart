@@ -4,6 +4,8 @@ import 'package:freshgrownweb/pages/admin_details.dart';
 import 'package:freshgrownweb/pages/addproduct.dart';
 import 'package:freshgrownweb/pages/editProduct.dart';
 import 'package:freshgrownweb/pages/home.dart';
+import 'package:freshgrownweb/pages/packages/editpackages.dart';
+import 'package:freshgrownweb/pages/packages/packages.dart';
 
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -20,6 +22,10 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => AddCategoryPage());
       case '/edit items':
         return MaterialPageRoute(builder: (_) => EditItem());
+      case '/packages':
+        return MaterialPageRoute(builder: (_) => Packages());
+      case '/edit packages':
+        return MaterialPageRoute(builder: (_) => EditPackage(package:settings.arguments));
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

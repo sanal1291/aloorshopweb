@@ -28,6 +28,16 @@ const textInputDecoration = InputDecoration(
       borderSide: BorderSide(color: Colors.pink, width: 2.0)),
 );
 
+const textBlueInputDecoration = InputDecoration(
+  contentPadding: EdgeInsets.symmetric(vertical: 2.0, horizontal: 5.0),
+  fillColor: Colors.white,
+  filled: true,
+  enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.grey, width: 2.0)),
+  focusedBorder: OutlineInputBorder(
+      borderSide: BorderSide(color: Colors.blue, width: 2.0)),
+);
+
 void myToast(String toastMessage) {
   Fluttertoast.showToast(
       msg: toastMessage,

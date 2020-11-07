@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); 
+  // WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp(); 
   runApp(MyApp());
 }
 
@@ -31,13 +31,13 @@ class Wrapper extends StatelessWidget {
   Widget build(BuildContext context) {
 
     User user = Provider.of<User>(context);
-    if(user ==null){
-      return MaterialApp(
-        home: SignIn()
-      );
-    } else{
+    // if(user ==null){
+    //   return MaterialApp(
+    //     home: SignIn()
+    //   );
+    // } else{
       return ProviderWidget();
-    }
+    // }
     // return FutureBuilder(
         // future: Provider.of<Future<dynamic>>(context),
         // builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {

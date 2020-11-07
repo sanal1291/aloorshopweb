@@ -38,6 +38,11 @@ class _HomeState extends State<Home> {
                   Navigator.of(context).pushNamed('/add category');
                 },
                 child: Text('Add category')),
+            FlatButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/packages');
+                },
+                child: Text('Packages')),
             RaisedButton(
               onPressed: () {
                 AuthService().signOut();
