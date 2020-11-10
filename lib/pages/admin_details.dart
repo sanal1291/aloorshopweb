@@ -12,7 +12,7 @@ class AdminDetailsPage extends StatefulWidget {
 
 class _AdminDetailsPageState extends State<AdminDetailsPage> {
   AdminServices _adminServices = AdminServices();
-
+  List _adminMessages;
   String _adminName;
   String _nextDeliveryTime;
   int fastDeliveryAmount;
@@ -46,6 +46,7 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (!databaseAdminDetailsLoaded) {
+                _adminMessages = snapshot.data[0].get('messages');
                 _adminName = snapshot.data[0].get('adminName');
                 _nextDeliveryTime = snapshot.data[0].get('nextDeliveryTime');
                 fastDeliveryAmount = snapshot.data[0].get('fastDeliveryAmount');
@@ -384,10 +385,14 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                           Expanded(
                                                             child:
                                                                 TextFormField(
-                                                              initialValue:
-                                                                  arrayElement[
+                                                              controller: TextEditingController(
+                                                                  text: arrayElement[
                                                                           'minAmount']
-                                                                      .toString(),
+                                                                      .toString()),
+                                                              // initialValue:
+                                                              //     arrayElement[
+                                                              //             'minAmount']
+                                                              //         .toString(),
                                                               onChanged:
                                                                   (value) {
                                                                 setState(() {
@@ -492,6 +497,18 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                             }
                           },
                           child: Text('Save changes'),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children:
+                              _adminMessages.map((msg) => Text(msg)).toList(),
+                        ),
+                        FlatButton(
+                          color: appBarColor,
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/edit messages');
+                          },
+                          child: Text('Edit messages'),
                         )
                       ],
                     ),
