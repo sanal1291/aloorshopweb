@@ -15,6 +15,8 @@ class AddPackageService {
       List<IndiItem> items,
       String uid,
       MediaInfo fileInfo,
+      int price,
+      int total,
       String imageUrl}) async {
     List tempItems = [];
     for (IndiItem i in items) {
@@ -36,7 +38,8 @@ class AddPackageService {
         'name': name,
         'items': tempItems,
         'image': url,
-        'price': 1000,
+        'price': price,
+        'total': total,
       });
       return true;
     } catch (e) {

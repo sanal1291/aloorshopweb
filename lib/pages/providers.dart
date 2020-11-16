@@ -22,7 +22,7 @@ class ProviderWidget extends StatelessWidget {
             value: databaseService.getIndiItems)
       ],
       child: MaterialApp(
-        initialRoute: '/packages',
+        initialRoute: '/',
         onGenerateRoute: MyRouter.generateRoute,
         home: Home(),
       ),

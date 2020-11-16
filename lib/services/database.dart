@@ -78,7 +78,7 @@ class DatabaseService {
                 categories: doc.data()['category'],
                 inStock: doc.data()['inStock'],
                 image: doc.data()['image'],
-                unit: doc.data()['unit'],
+                unit: doc.data()['unitMeasured'],
                 price: doc.data()['price'],
                 tick: doc.data()['tick'],
               ))
@@ -96,7 +96,7 @@ class DatabaseService {
               categories: e.data()['category'],
               inStock: e.data()['inStock'],
               image: e.data()['image'],
-              unit: e.data()['unit'],
+              unit: e.data()['unitMeasured'],
               price: e.data()['price'],
               tick: e.data()['tick'],
             ))
@@ -132,6 +132,7 @@ class DatabaseService {
               name: e.get('name'),
               items: e.get('items'),
               price: e.get('price'),
+              total: e.get('total'),
               uid: e.id,
             ))
         .toList());

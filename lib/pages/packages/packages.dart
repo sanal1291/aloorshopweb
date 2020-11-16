@@ -34,7 +34,7 @@ class _PackagesState extends State<Packages> {
               backgroundColor: appBgColor,
               appBar: AppBar(
                 backgroundColor: appBarColor,
-                title: Text("Packages"),
+                title: Center(child: Text("Packages")),
               ),
               body: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -46,7 +46,8 @@ class _PackagesState extends State<Packages> {
                           Expanded(
                             child: Column(
                               children: [
-                                Container(
+                                Padding(
+                                  padding: EdgeInsets.only(bottom: 10),
                                   child: Row(
                                     children: [
                                       Expanded(
@@ -101,7 +102,12 @@ class _PackagesState extends State<Packages> {
                                     )),
                                     Expanded(
                                         child: Text(
-                                      'Price',
+                                      'Selling Price',
+                                      style: TextStyle(fontSize: 20),
+                                    )),
+                                    Expanded(
+                                        child: Text(
+                                      'Total Price',
                                       style: TextStyle(fontSize: 20),
                                     ))
                                   ],
@@ -183,6 +189,9 @@ class _PackagesState extends State<Packages> {
                   Expanded(
                     child: Text(e.price.toString()),
                   ),
+                  Expanded(
+                    child: Text(e.total.toString()),
+                  ),
                 ],
               ),
             ),
@@ -210,6 +219,9 @@ class _PackagesState extends State<Packages> {
           ),
           Expanded(
             child: Text(e.price.toString()),
+          ),
+          Expanded(
+            child: Text(e.unit ?? "NA"),
           ),
         ],
       ),
@@ -240,74 +252,84 @@ class _PackagesState extends State<Packages> {
           packageItems.add(item);
         }
       }
-      return Scrollbar(
-        child: ListView(children: [
-          Container(
-              child: Row(children: [
-            Expanded(
-              flex: 2,
-              child: Column(
-                children: [
-                  Center(child: Text('Image')),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                    child: Image.network(selected.imageUrl),
+      return items == null
+          ? Center(
+              child: Text('Loading...'),
+            )
+          : Scrollbar(
+              child: ListView(children: [
+                Container(
+                    child: Row(children: [
+                  Expanded(
+                    flex: 2,
+                    child: Column(
+                      children: [
+                        Center(child: Text('Image')),
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
+                          child: Image.network(selected.imageUrl),
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
-            ),
-            Expanded(
-              flex: 5,
-              child: Container(
-                child: Center(
-                  child: Text('Package details'),
+                  Expanded(
+                    flex: 5,
+                    child: Container(
+                      child: Center(
+                        child: Text('Package details'),
+                      ),
+                    ),
+                  ),
+                ])),
+                Divider(
+                  color: Colors.green,
+                  thickness: 2,
+                  indent: 40,
+                  endIndent: 40,
                 ),
-              ),
-            ),
-          ])),
-          Divider(
-            color: Colors.green,
-            thickness: 2,
-            indent: 40,
-            endIndent: 40,
-          ),
-          Center(
-              child: Text(
-            'Package items',
-            style: TextStyle(fontSize: 15),
-          )),
-          SizedBox(height: 5),
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  'Name',
-                  style: TextStyle(fontSize: 16),
+                Center(
+                    child: Text(
+                  'Package items',
+                  style: TextStyle(fontSize: 15),
+                )),
+                SizedBox(height: 5),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Name',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'Quantity',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'Price',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'Unit',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  'Quantity',
-                  style: TextStyle(fontSize: 16),
+                Divider(
+                  color: Colors.green[500],
+                  thickness: 1,
                 ),
-              ),
-              Expanded(
-                child: Text(
-                  'Price',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ],
-          ),
-          Divider(
-            color: Colors.green[500],
-            thickness: 1,
-          ),
-          Column(
-            children: packageItems.map((e) => indiItemTile(e)).toList(),
-          )
-        ]),
-      );
+                Column(
+                  children: packageItems.map((e) => indiItemTile(e)).toList(),
+                )
+              ]),
+            );
     }
   }
 }
