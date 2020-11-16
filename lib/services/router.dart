@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freshgrownweb/pages/addcategorypage.dart';
 import 'package:freshgrownweb/pages/admin_details.dart';
 import 'package:freshgrownweb/pages/addproduct.dart';
+import 'package:freshgrownweb/pages/editMessages.dart';
 import 'package:freshgrownweb/pages/editProduct.dart';
 import 'package:freshgrownweb/pages/home.dart';
 import 'package:freshgrownweb/pages/packages/editpackages.dart';
@@ -25,7 +26,10 @@ class MyRouter {
       case '/packages':
         return MaterialPageRoute(builder: (_) => Packages());
       case '/edit packages':
-        return MaterialPageRoute(builder: (_) => EditPackage(package:settings.arguments));
+        return MaterialPageRoute(
+            builder: (_) => EditPackage(package: settings.arguments));
+      case '/edit messages':
+        return MaterialPageRoute(builder: (_) => EditAdminMessages());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

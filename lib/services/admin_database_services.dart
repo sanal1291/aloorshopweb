@@ -10,6 +10,18 @@ class AdminServices {
   List<Map> locations;
   List<String> areaNames;
 
+  Future<bool> updateAdminMessages({List messages}) async {
+    try {
+      await admin
+          .doc('yN7N5geufqe2XmoKnyYyHPrajaR2')
+          .update({'messages': messages});
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
   Future<bool> updateAdminDetails(
       {String adminName,
       String nextDeliveryTime,
@@ -33,6 +45,19 @@ class AdminServices {
           refDoc.set(loc);
         } else {
           await location.doc(loc['documentId']).set(loc);
+        }
+      }
+      var l = await location
+          .get()
+          .then((value) => value.docs.map((e) => e.data()).toList());
+      for (var loc in l) {
+        print(loc);
+        if (locations
+            .map((e) => e['documentId'])
+            .toList()
+            .contains(loc['documentId'])) {
+        } else {
+          await location.doc(loc['documentId']).delete();
         }
       }
       return true;

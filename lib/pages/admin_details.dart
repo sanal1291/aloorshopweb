@@ -12,7 +12,7 @@ class AdminDetailsPage extends StatefulWidget {
 
 class _AdminDetailsPageState extends State<AdminDetailsPage> {
   AdminServices _adminServices = AdminServices();
-
+  List _adminMessages;
   String _adminName;
   String _nextDeliveryTime;
   int fastDeliveryAmount;
@@ -46,6 +46,7 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (!databaseAdminDetailsLoaded) {
+                _adminMessages = snapshot.data[0].get('messages');
                 _adminName = snapshot.data[0].get('adminName');
                 _nextDeliveryTime = snapshot.data[0].get('nextDeliveryTime');
                 fastDeliveryAmount = snapshot.data[0].get('fastDeliveryAmount');
@@ -68,6 +69,11 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                     padding: EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 0.0),
                     child: ListView(
                       children: [
+                        Column(
+                            // children: messages.map((e){
+                            //   return
+                            // }),
+                            ),
                         Column(
                           children: [
                             Row(
@@ -210,9 +216,12 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                           Expanded(
                                                             child:
                                                                 TextFormField(
-                                                              initialValue:
-                                                                  areaNames[
-                                                                      areaIndex],
+                                                              controller: TextEditingController(
+                                                                  text: areaNames[
+                                                                      areaIndex]),
+                                                              // initialValue:
+                                                              //     areaNames[
+                                                              //         areaIndex],
                                                               decoration: textInputDecoration
                                                                   .copyWith(
                                                                       hintText:
@@ -235,6 +244,36 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                                     : null;
                                                               },
                                                             ),
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                                Icons.remove),
+                                                            onPressed: () {
+                                                              try {
+                                                                if (locationMinAmount
+                                                                    .map((e) => e[
+                                                                        'area'])
+                                                                    .toList()
+                                                                    .contains(
+                                                                        areaNames[
+                                                                            areaIndex])) {
+                                                                  myToast(
+                                                                      'Area is used in localities. Try removing localities first.');
+                                                                } else {
+                                                                  setState(() {
+                                                                    areaNames
+                                                                        .removeAt(
+                                                                            areaIndex);
+                                                                  });
+
+                                                                  print(
+                                                                      areaNames);
+                                                                }
+                                                              } catch (e) {
+                                                                myToast(
+                                                                    'Something went wrong.');
+                                                              }
+                                                            },
                                                           ),
                                                           SizedBox(width: 10.0),
                                                         ],
@@ -346,10 +385,14 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                           Expanded(
                                                             child:
                                                                 TextFormField(
-                                                              initialValue:
-                                                                  arrayElement[
+                                                              controller: TextEditingController(
+                                                                  text: arrayElement[
                                                                           'minAmount']
-                                                                      .toString(),
+                                                                      .toString()),
+                                                              // initialValue:
+                                                              //     arrayElement[
+                                                              //             'minAmount']
+                                                              //         .toString(),
                                                               onChanged:
                                                                   (value) {
                                                                 setState(() {
@@ -371,7 +414,7 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                                 try {
                                                                   if (value
                                                                       .isEmpty) {
-                                                                    return 'Enter a Category priority';
+                                                                    return '!';
                                                                   } else if (!(arrayElement[
                                                                           'minAmount']
                                                                       is int)) {
@@ -392,6 +435,22 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                                                                       labelText:
                                                                           'Free delivery amount'),
                                                             ),
+                                                          ),
+                                                          IconButton(
+                                                            icon: Icon(
+                                                                Icons.remove),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                try {
+                                                                  locationMinAmount
+                                                                      .remove(
+                                                                          arrayElement);
+                                                                } catch (e) {
+                                                                  myToast(
+                                                                      'Area is used in localitites, try removing localitites first');
+                                                                }
+                                                              });
+                                                            },
                                                           ),
                                                         ],
                                                       ),
@@ -438,6 +497,18 @@ class _AdminDetailsPageState extends State<AdminDetailsPage> {
                             }
                           },
                           child: Text('Save changes'),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children:
+                              _adminMessages.map((msg) => Text(msg)).toList(),
+                        ),
+                        FlatButton(
+                          color: appBarColor,
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/edit messages');
+                          },
+                          child: Text('Edit messages'),
                         )
                       ],
                     ),
