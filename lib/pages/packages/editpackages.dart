@@ -168,7 +168,8 @@ class EeditPackageState extends State<EditPackage> {
                                                     keyboardType:
                                                         TextInputType.number,
                                                     initialValue: edit
-                                                        ? widget.package.name
+                                                        ? widget.package.price
+                                                            .toString()
                                                         : '',
                                                     decoration:
                                                         textBlueInputDecoration
