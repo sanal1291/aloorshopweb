@@ -1,5 +1,3 @@
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freshgrownweb/models/cart_item.dart';
 import 'package:freshgrownweb/models/indipendentItem.dart';

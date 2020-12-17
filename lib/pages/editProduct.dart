@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:freshgrownweb/shared/constants.dart';
 
 import '../models/item.dart';
 import '../services/database.dart';
@@ -11,7 +12,9 @@ class EditItem extends StatefulWidget {
 }
 
 class _EditProductsState extends State<EditItem> {
-  List<Widget> varietyColumn(List<dynamic> varities) {
+  // bool saveFlag = false;
+
+  List<Widget> varietyColumn(List<dynamic> varities, int index) {
     List<Widget> varietyList = [];
     for (var variety in varities) {
       varietyList.add(Row(
@@ -41,9 +44,33 @@ class _EditProductsState extends State<EditItem> {
             padding: const EdgeInsets.all(8.0),
             child: Text("unit :${variety['unit']}"),
           )),
+          Card(
+              child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Checkbox(
+              value: variety['inStock'],
+              onChanged: (bool value) {
+                // setState(() {
+                //   variety['inStock'] = value;
+                //   // saveFlag = true;
+                // });
+              },
+            ),
+          )),
         ],
       ));
     }
+    // if (saveFlag) {
+    //   varietyList.add(Row(
+    //     children: [
+    //       FlatButton(
+    //         color: appBarColor,
+    //         onPressed: () async {},
+    //         child: Text('Save'),
+    //       )
+    //     ],
+    //   ));
+    // }
     return varietyList;
   }
 
@@ -52,48 +79,56 @@ class _EditProductsState extends State<EditItem> {
     return StreamBuilder<List<Item>>(
         stream: DatabaseService().getItems,
         builder: (context, snapshot) {
-          List<Item> items = snapshot.data;
-          return Scaffold(
-              appBar: AppBar(
-                title: Text("Edit Page"),
-              ),
-              body: snapshot.hasData
-                  ? ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) => Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text((index + 1).toString()),
-                              Text(items[index].name),
-                              Text(items[index].displayNames['ml']),
-                              Image.network(
-                                items[index].imageUrl,
-                                height: 50,
-                                width: 50,
-                                fit: BoxFit.cover,
-                              ),
-                              Text(items[index].inStock.toString()),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: varietyColumn(items[index].varieties),
-                              ),
-                              RaisedButton(
-                                onPressed: () {},
-                                child: Icon(Icons.edit),
-                              ),
-                              RaisedButton(
-                                onPressed: () {},
-                                child: Icon(Icons.delete),
-                              )
-                            ],
+          if (snapshot.hasData) {
+            List<Item> items = snapshot.data;
+            items.sort((a, b) => (a.name).compareTo(b.name));
+            return Scaffold(
+                appBar: AppBar(
+                  backgroundColor: appBarColor,
+                  title: Text("Edit Page"),
+                ),
+                body: snapshot.hasData
+                    ? ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) => Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text((index + 1).toString()),
+                                Text(items[index].name),
+                                Text(items[index].displayNames['ml']),
+                                Image.network(
+                                  items[index].imageUrl,
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.cover,
+                                ),
+                                Text(items[index].inStock.toString()),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: varietyColumn(
+                                      items[index].varieties, index),
+                                ),
+                                RaisedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                        '/edit single item',
+                                        arguments: items[index]);
+                                  },
+                                  child: Icon(Icons.edit),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  : Container());
+                      )
+                    : Container());
+          } else {
+            return Container();
+          }
         });
   }
 }
